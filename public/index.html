@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous Chat - Connect Randomly</title>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <i class="fas fa-comments"></i>
+                <span>Anonymous Chat</span>
+            </div>
+            <div class="user-info">
+                <div class="user-status">
+                    <div class="status-indicator offline" id="status-indicator"></div>
+                    <span id="status-text">Offline</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Welcome Screen -->
+        <div class="welcome-screen" id="welcome-screen">
+            <div class="welcome-content">
+                <div class="welcome-icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <h1>Connect with Someone New</h1>
+                <p>Start an anonymous conversation with a random person from around the world</p>
+                
+                <div class="nickname-input">
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input type="text" id="nickname-input" placeholder="Enter your nickname (optional)" maxlength="20">
+                    </div>
+                </div>
+                
+                <div class="welcome-actions">
+                    <button class="btn btn-primary btn-large" id="start-chat-btn">
+                        <i class="fas fa-search"></i>
+                        <span>Find Someone to Chat</span>
+                    </button>
+                </div>
+                
+                <div class="location-info" id="location-display">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Getting your location...</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Searching Screen -->
+        <div class="searching-screen hidden" id="searching-screen">
+            <div class="searching-content">
+                <div class="searching-animation">
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+                <h2>Looking for someone to chat with...</h2>
+                <p>Please wait while we find you a conversation partner</p>
+                
+                <button class="btn btn-secondary" id="cancel-search-btn">
+                    <i class="fas fa-times"></i>
+                    <span>Cancel Search</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat Screen -->
+        <div class="chat-screen hidden" id="chat-screen">
+            <!-- Chat Header -->
+            <div class="chat-header">
+                <div class="partner-info">
+                    <div class="partner-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="partner-details">
+                        <h3 id="partner-name">Anonymous User</h3>
+                        <div class="partner-location" id="partner-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Location unknown</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chat-actions">
+                    <button class="btn-icon" id="voice-call-btn" title="Voice Call">
+                        <i class="fas fa-phone"></i>
+                    </button>
+                    <button class="btn-icon" id="video-call-btn" title="Video Call">
+                        <i class="fas fa-video"></i>
+                    </button>
+                    <button class="btn-icon btn-danger" id="end-chat-btn" title="End Chat">
+                        <i class="fas fa-phone-slash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Messages Container -->
+            <div class="messages-container" id="messages-container">
+                <div class="messages-content" id="messages">
+                    <!-- Welcome message -->
+                    <div class="system-message">
+                        <i class="fas fa-info-circle"></i>
+                        <span>You're now connected! Say hello to start the conversation.</span>
+                    </div>
+                </div>
+                
+                <!-- Typing Indicator -->
+                <div class="typing-indicator hidden" id="typing-indicator">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <span>Partner is typing...</span>
+                </div>
+            </div>
+
+            <!-- Chat Input -->
+            <div class="chat-input-container">
+                <div class="media-actions">
+                    <button class="btn-icon" id="attach-file-btn" title="Attach File">
+                        <i class="fas fa-paperclip"></i>
+                    </button>
+                    <button class="btn-icon" id="camera-btn" title="Take Photo">
+                        <i class="fas fa-camera"></i>
+                    </button>
+                    <button class="btn-icon record-btn" id="voice-record-btn" title="Record Voice">
+                        <i class="fas fa-microphone"></i>
+                    </button>
+                </div>
+                
+                <div class="message-input-wrapper">
+                    <input type="text" id="message-input" placeholder="Type your message..." maxlength="1000">
+                    <button class="send-btn" id="send-btn">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call Modal -->
+    <div class="modal hidden" id="call-modal">
+        <div class="modal-content">
+            <div class="call-interface">
+                <!-- Incoming Call -->
+                <div class="incoming-call hidden" id="incoming-call">
+                    <div class="caller-info">
+                        <div class="caller-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h3 id="caller-name">Anonymous User</h3>
+                        <p id="call-type">Incoming voice call</p>
+                    </div>
+                    
+                    <div class="call-actions">
+                        <button class="btn-call btn-accept" id="accept-call-btn">
+                            <i class="fas fa-phone"></i>
+                        </button>
+                        <button class="btn-call btn-decline" id="decline-call-btn">
+                            <i class="fas fa-phone-slash"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Active Call -->
+                <div class="active-call hidden" id="active-call">
+                    <div class="video-container">
+                        <video id="remote-video" autoplay playsinline></video>
+                        <video id="local-video" autoplay playsinline muted></video>
+                    </div>
+                    
+                    <div class="call-controls">
+                        <button class="btn-call" id="mute-btn">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                        <button class="btn-call" id="camera-toggle-btn">
+                            <i class="fas fa-video"></i>
+                        </button>
+                        <button class="btn-call btn-decline" id="hangup-btn">
+                            <i class="fas fa-phone-slash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- File Input (Hidden) -->
+    <input type="file" id="file-input" accept="image/*,video/*,audio/*,.pdf,.doc,.docx,.txt" multiple style="display: none;">
+    
+    <!-- Camera Input (Hidden) -->
+    <input type="file" id="camera-input" accept="image/*" capture="environment" style="display: none;">
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay hidden" id="loading-overlay">
+        <div class="loading-spinner">
+            <i class="fas fa-spinner fa-spin"></i>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+    
+    <!-- Main JS -->
+    <script src="script.js"></script>
+</body>
+</html>
