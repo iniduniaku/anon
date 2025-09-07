@@ -1,0 +1,25 @@
+{
+  "name": "anonymous-chat",
+  "version": "1.0.0",
+  "description": "Anonymous chat with voice, video call, media sharing and location features",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2",
+    "uuid": "^9.0.0",
+    "cors": "^2.8.5",
+    "multer": "^1.4.5-lts.1",
+    "axios": "^1.5.0",
+    "geoip-lite": "^1.4.7",
+    "sharp": "^0.32.6",
+    "mime-types": "^2.1.35",
+    "request-ip": "^3.3.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
